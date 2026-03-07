@@ -16,18 +16,24 @@ pose = mp_pose.Pose()
 
 FRAME_WINDOW = st.image([])
 
+# Use OpenCV video capture
 camera = cv2.VideoCapture(0)
 
-while run:
-    ret, frame = camera.read()
-
-    if not ret:
-        st.write("Camera not detected")
+# Loop using while True but break with checkbox
+while True:
+    if not run:
         break
 
+    ret, frame = camera.read()
+    if not ret:
+        st.warning("Camera not detected")
+        break
+
+    # Convert BGR to RGB
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = pose.process(rgb)
 
+    # Draw pose landmarks if detected
     if results.pose_landmarks:
         mp_drawing.draw_landmarks(
             frame,
@@ -35,6 +41,7 @@ while run:
             mp_pose.POSE_CONNECTIONS
         )
 
-    FRAME_WINDOW.image(frame)
+    # Show frame in Streamlit
+    FRAME_WINDOW.image(frame, channels="BGR")
 
 camera.release()
