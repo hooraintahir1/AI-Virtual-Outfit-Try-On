@@ -3,14 +3,12 @@ from PIL import Image
 import numpy as np
 import mediapipe as mp
 
-st.title("AI Virtual Outfit Try-On (Cloud Version)")
+st.title("AI Virtual Outfit Try-On (Cloud-Friendly)")
 
 uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
-# Use only classic Pose solution
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
-
 pose = mp_pose.Pose(static_image_mode=True)
 
 if uploaded_file:
