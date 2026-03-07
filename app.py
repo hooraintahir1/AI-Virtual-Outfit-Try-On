@@ -4,44 +4,29 @@ import mediapipe as mp
 import numpy as np
 
 st.title("AI Virtual Outfit Try-On Demo")
+st.write("Upload an image to detect pose using MediaPipe.")
 
-st.write("This demo shows pose detection using MediaPipe.")
-
-run = st.checkbox("Start Camera")
+# File uploader instead of webcam
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
 
-pose = mp_pose.Pose()
+pose = mp_pose.Pose(static_image_mode=True)
 
-FRAME_WINDOW = st.image([])
+if uploaded_file:
+    # Read the uploaded file as a numpy array
+    file_bytes = np.frombuffer(uploaded_file.read(), np.uint8)
+    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
-# Use OpenCV video capture
-camera = cv2.VideoCapture(0)
-
-# Loop using while True but break with checkbox
-while True:
-    if not run:
-        break
-
-    ret, frame = camera.read()
-    if not ret:
-        st.warning("Camera not detected")
-        break
-
-    # Convert BGR to RGB
-    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     results = pose.process(rgb)
 
-    # Draw pose landmarks if detected
     if results.pose_landmarks:
         mp_drawing.draw_landmarks(
-            frame,
+            img,
             results.pose_landmarks,
             mp_pose.POSE_CONNECTIONS
         )
 
-    # Show frame in Streamlit
-    FRAME_WINDOW.image(frame, channels="BGR")
-
-camera.release()
+    st.image(img, channels="BGR")
