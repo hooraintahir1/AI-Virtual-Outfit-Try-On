@@ -6,8 +6,7 @@ A complete virtual outfit try-on application: **live webcam**, **photo try-on**,
 ## Quick Start
 
 ```bash
-# Windows
-run.bat
+npm start
 
 # Or manually
 pip install -r backend/requirements.txt
