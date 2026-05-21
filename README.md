@@ -1,17 +1,27 @@
 # 🌟 AI Virtual Outfit Try-On System
 
-An AI-powered application that allows users to virtually try on outfits using a webcam or uploaded images. The system uses pose detection and image processing to overlay clothing realistically.
+A complete virtual outfit try-on application: **live webcam**, **photo try-on**, PNG outfit catalog, and **screenshots saved to the `screenshots/` folder** via a layered Flask + JavaScript architecture.
 ---
 
-## ⚙️ Installation
-### Install dependencies
-pip install opencv-python mediapipe pillow numpy
+## Quick Start
+
+```bash
+# Windows
+run.bat
+
+# Or manually
+pip install -r backend/requirements.txt
+python scripts/generate_sample_outfits.py
+python backend/main.py
+```
+
+Open **http://localhost:5000**
 
 ---
+## Presentation Demo Script
 
-## ▶️ Run the Project
-
-python ui_controller.py
-
----
-
+1. Start app → show architecture in README/DESIGN.  
+2. **Live mode:** start camera, switch outfits, adjust scale, save screenshot.  
+3. Open `screenshots/` folder to prove file was saved.  
+4. **Photo mode:** upload photo, detect pose, try jacket, save again.  
+5. Upload a custom PNG outfit.  
