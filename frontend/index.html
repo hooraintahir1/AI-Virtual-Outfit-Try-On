@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Outfit Try-On System</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <h1>AI Outfit Try-On</h1>
+        <p class="subtitle">Semester Project — Live webcam &amp; photo try-on with pose-aligned garments</p>
+      </div>
+      <nav class="mode-tabs" role="tablist" aria-label="Try-on mode">
+        <button class="tab active" data-mode="live" role="tab" aria-selected="true">Live Webcam</button>
+        <button class="tab" data-mode="photo" role="tab" aria-selected="false">Photo Try-On</button>
+      </nav>
+    </header>
+
+    <main class="main">
+      <section class="stage">
+        <div class="canvas-wrap">
+          <canvas id="output" width="1280" height="720"></canvas>
+          <div id="loading" class="overlay">
+            <div class="spinner"></div>
+            <p>Loading AI pose model…</p>
+          </div>
+          <div id="camera-hint" class="overlay hidden">
+            <p>Allow camera access, then click <strong>Start camera</strong>.</p>
+          </div>
+          <div id="photo-hint" class="overlay hidden">
+            <p>Upload a full-body or upper-body photo to try outfits.</p>
+          </div>
+        </div>
+
+        <div id="live-controls" class="controls panel-live">
+          <button id="btn-start" class="btn primary" disabled>Start camera</button>
+          <button id="btn-stop" class="btn" disabled>Stop</button>
+          <button id="btn-capture" class="btn" disabled>Save to screenshots</button>
+        </div>
+
+        <div id="photo-controls" class="controls panel-photo hidden">
+          <label class="btn secondary" for="upload-photo">Upload photo</label>
+          <input type="file" id="upload-photo" accept="image/*" hidden />
+          <button id="btn-detect-photo" class="btn" disabled>Detect pose</button>
+          <button id="btn-capture-photo" class="btn primary" disabled>Save to screenshots</button>
+        </div>
+
+        <div class="controls shared-controls">
+          <label class="toggle">
+            <input type="checkbox" id="mirror" checked />
+            <span>Mirror (live only)</span>
+          </label>
+          <label class="slider-label">Scale <input type="range" id="scale" min="0.6" max="2.2" step="0.05" value="1.35" /></label>
+          <label class="slider-label">Offset Y <input type="range" id="offset-y" min="-100" max="100" step="1" value="0" /></label>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <h2>Outfit catalog</h2>
+        <p class="hint">Transparent PNG garments. Saved try-ons go to the <code>screenshots/</code> folder.</p>
+        <div id="outfit-grid" class="outfit-grid"></div>
+        <label class="btn secondary full" for="upload-outfit">Add outfit (PNG)</label>
+        <input type="file" id="upload-outfit" accept="image/png" hidden />
+
+        <h3 class="gallery-title">Saved screenshots</h3>
+        <div id="screenshot-gallery" class="screenshot-gallery">
+          <p class="empty-gallery">No screenshots yet.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span id="status">Initializing…</span>
+      <span class="arch-tag">Layered: Presentation → Application → Domain / Infrastructure</span>
+    </footer>
+  </div>
+
+  <video id="video" playsinline muted hidden></video>
+  <img id="photo-source" alt="" hidden />
+
+  <script type="module" src="js/presentation/main.js"></script>
+</body>
+</html>
